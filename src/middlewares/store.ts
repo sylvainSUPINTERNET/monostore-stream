@@ -3,6 +3,7 @@ import {Request, Response, NextFunction} from 'express';
 import { COLLECTION_STORES } from '../db/collections';
 import { DbClient } from '../db/conn';
 import { IStoreModel } from '../db/models/IStoreModel';
+import { redisClientStatic } from '../redis/redis';
 
 export const storeMiddleware = async (req:Request, res:Response, next:NextFunction) => {
     try {
@@ -18,6 +19,8 @@ export const storeMiddleware = async (req:Request, res:Response, next:NextFuncti
                 { "_id": _id},
                 {$set: payload},
                 {upsert: true});
+            
+            // TODO => reset stream related to new data given
 
             res.status(200).json(updatedStore)
         } else {
