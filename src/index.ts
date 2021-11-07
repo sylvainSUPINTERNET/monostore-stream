@@ -1,12 +1,22 @@
 require('dotenv').config()
 
-import { NextFunction } from 'express';
+const bodyParser = require('body-parser')
+
 import { initGrpAndStream, startStreamingForStore } from './stream/consumer';
+import { DbClient } from './db/conn';
+import { COLLECTION_STORES } from './db/collections';
+import { IStoreModel } from './db/models/IStoreModel';
+import { storeMiddleware } from './middlewares/store';
 
 const cors = require('cors');
 const stores = require('../stores.json');
 const express = require('express');
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 app.use(cors({
     origin: [...process.env.ALLOWED_ORIGINS?.split(" ") as string[]]
@@ -20,16 +30,34 @@ const io = require('socket.io')(server, {
       }
 })
 
-
-
-
-// établissement de la connexion
 io.on('connection', (socket:any) =>{
     console.log(`Connecté au client ${socket.id}`)
  })
- 
+
+
+ app.put("/api/store/update/:name", storeMiddleware);
+
+
 server.listen(process.env.API_PORT, async () => {
     console.log("Product producer started on port : " + process.env.API_PORT)
+
+    
+    // INIT db client
+    const db = await DbClient.connect();
+
+    // Init stores if not exist
+    stores.names.forEach( async (store:string) => {
+        const res = await db.collection(COLLECTION_STORES).find({}).toArray();
+        if ( res.length === 0 ) {
+            console.log("Inserting store : " + store);
+            let newStore: IStoreModel = {
+                name: store,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            }
+            await db.collection(COLLECTION_STORES).insertOne(newStore);
+        }
+    });
 
     stores.names.forEach( async (store:string) => {
         try {
