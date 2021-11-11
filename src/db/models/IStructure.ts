@@ -1,6 +1,7 @@
 export interface IStructure {
     brandName?: string
     pageTitle1?: string
+    globalDescAndCheckout?: string
     pageTitle1Quote?: string
     pageMainPics?: string[]
     pageContent1?: string
@@ -9,8 +10,10 @@ export interface IStructure {
     pageContent2?: string
     productName?:string
     productPrice?:number
+    stockLimit: number
     productPromoPercent?:number
-    points: [
+    shippingFare?: number
+    points?: [
         {
             title: string
             content: string
