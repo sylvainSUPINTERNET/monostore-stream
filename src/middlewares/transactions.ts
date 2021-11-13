@@ -16,7 +16,9 @@ export const createTransaction = async (req:Request, res:Response, next:NextFunc
         const db = await DbClient.connect();
         payload.storeName = storeName;
         await db.collection(COLLECTION_TRANSACTIONS).insertOne(payload);
-        res.status(200).json({"message":"OK", "storeTarget": req.params.name, "data": payload});
+        res
+        .status(200)
+        .json({"message":"OK", "storeTarget": req.params.name, "data": payload});
     } catch ( e ) {
         res
         .status(400)
@@ -24,6 +26,3 @@ export const createTransaction = async (req:Request, res:Response, next:NextFunc
     }
 
 }
-
-// TODO : create distinction between prod / preprod for API ( front side )
-// google analytics 
