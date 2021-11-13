@@ -7,6 +7,7 @@ import { DbClient } from './db/conn';
 import { COLLECTION_STORES } from './db/collections';
 import { IStoreModel } from './db/models/IStoreModel';
 import { storeMiddleware } from './middlewares/store';
+import { createTransaction } from './middlewares/transactions';
 
 const cors = require('cors');
 const stores = require('../stores.json');
@@ -36,7 +37,11 @@ io.on('connection', (socket:any) =>{
 
 
  app.put("/api/store/update/:name", storeMiddleware);
-
+ app.post("/api/transactions", createTransaction);
+ 
+// TODO : 
+// route for transaction save
+// plug real API with front => create IStructure ( deja fait ? au dessus put)
 
 server.listen(process.env.API_PORT, async () => {
     console.log("Product producer started on port : " + process.env.API_PORT)
