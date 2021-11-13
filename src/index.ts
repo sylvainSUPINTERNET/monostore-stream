@@ -38,7 +38,7 @@ io.on('connection', (socket:any) =>{
 
 
  app.put("/api/store/update/:name", storeMiddleware);
- app.post("/api/transactions", createTransaction);
+ app.post("/api/transactions/:name", createTransaction);
  
 // TODO : 
 // route for transaction save
