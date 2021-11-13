@@ -13,6 +13,7 @@ const cors = require('cors');
 const stores = require('../stores.json');
 const express = require('express');
 const app = express();
+const PORT = process.env.PORT || 3999;
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -43,8 +44,8 @@ io.on('connection', (socket:any) =>{
 // route for transaction save
 // plug real API with front => create IStructure ( deja fait ? au dessus put)
 
-server.listen(process.env.API_PORT, async () => {
-    console.log("Product producer started on port : " + process.env.API_PORT)
+server.listen(PORT, async () => {
+    console.log("Product producer started on port : " + PORT)
 
     
     // INIT db client
