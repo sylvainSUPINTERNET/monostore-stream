@@ -5,6 +5,22 @@ import { DbClient } from '../db/conn';
 import { IStoreModel } from '../db/models/IStoreModel';
 import { redisClientStatic } from '../redis/redis';
 
+export const getStoreDetail = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        const db = await DbClient.connect();
+        const storeName:string = req.params.name;
+        let reg = new RegExp(storeName, "i");
+        const store = await db.collection(COLLECTION_STORES).findOne({name: reg});
+        res.status(200).json({
+            "storeDetail": store
+        })
+    } catch ( e ) {
+        res.status(400).json({
+            "message": "error"
+        })
+    }
+}
+
 export const storeMiddleware = async (req:Request, res:Response, next:NextFunction) => {
     try {
         const db = await DbClient.connect();

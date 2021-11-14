@@ -6,7 +6,7 @@ import { initGrpAndStream, startStreamingForStore } from './stream/consumer';
 import { DbClient } from './db/conn';
 import { COLLECTION_STORES } from './db/collections';
 import { IStoreModel } from './db/models/IStoreModel';
-import { storeMiddleware } from './middlewares/store';
+import { getStoreDetail, storeMiddleware } from './middlewares/store';
 import { createTransaction } from './middlewares/transactions';
 
 const cors = require('cors');
@@ -39,6 +39,7 @@ io.on('connection', (socket:any) =>{
 
  app.put("/api/store/update/:name", storeMiddleware);
  app.post("/api/transactions/:name", createTransaction);
+ app.get("/api/store/detail/:name", getStoreDetail)
  
 // TODO : 
 // route for transaction save
