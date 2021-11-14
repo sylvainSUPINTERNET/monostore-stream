@@ -12,7 +12,7 @@ import { ITransaction } from "../db/models/ITransaction";
 export const createTransaction = async (req:Request, res:Response, next:NextFunction) => {
     try {
         let payload:ITransaction = req.body;
-        let storeName:string = req.params.storeName;
+        let storeName:string = req.params.name;
         const db = await DbClient.connect();
         payload.storeName = storeName;
         await db.collection(COLLECTION_TRANSACTIONS).insertOne(payload);

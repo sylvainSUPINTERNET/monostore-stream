@@ -45,7 +45,7 @@ class Streamable {
                 //console.log(streamData);
 
                 const streamData = await this.redisClient.xread("BLOCK", "100" ,"COUNT", "1", "STREAMS", `${this.store}:STREAM`, "$");
-                console.log(streamData);
+                //console.log(streamData);
             } catch ( e ) {
                 console.log(e);
             }
