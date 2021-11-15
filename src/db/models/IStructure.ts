@@ -19,6 +19,15 @@ export interface IStructure {
         {
             title: string
             content: string
+            pic: string
+        }
+    ],
+    criteriaOrder? : [
+        {
+            name: string
+            pic: string
+            checkoutDescription: string
+            stockLimit:number
         }
     ]
 }

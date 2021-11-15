@@ -3,6 +3,7 @@ import {Request, Response, NextFunction} from 'express';
 import { COLLECTION_STORES } from '../db/collections';
 import { DbClient } from '../db/conn';
 import { IStoreModel } from '../db/models/IStoreModel';
+import { IStructure } from '../db/models/IStructure';
 import { redisClientStatic } from '../redis/redis';
 
 export const getStoreDetail = async (req:Request, res:Response, next:NextFunction) => {
@@ -11,9 +12,8 @@ export const getStoreDetail = async (req:Request, res:Response, next:NextFunctio
         const storeName:string = req.params.name;
         let reg = new RegExp(storeName, "i");
         const store = await db.collection(COLLECTION_STORES).findOne({name: reg});
-        res.status(200).json({
-            "storeDetail": store
-        })
+        let response: IStructure = store as IStructure;
+        res.status(200).json(response)
     } catch ( e ) {
         res.status(400).json({
             "message": "error"
@@ -26,8 +26,8 @@ export const storeMiddleware = async (req:Request, res:Response, next:NextFuncti
         const db = await DbClient.connect();
         let payload:IStoreModel = req.body;
         let storeName: string = req.params.name as string;
-
-        const store = await db.collection(COLLECTION_STORES).find({name: storeName}).toArray();
+        let reg = new RegExp(storeName, "i");
+        const store = await db.collection(COLLECTION_STORES).find({name: reg}).toArray();
         if ( store.length > 0 ) {
             const { _id } = store[0];
             payload["updatedAt"] = new Date().toISOString();
