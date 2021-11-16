@@ -18,8 +18,9 @@ variable "STORE_NAME" {
     description = "Store name ( use in app )"
 }
 
-variable "GIT_SOURCE" {
+variable "RELEASE_URL" {
     type=string
-    default="https://github.com/sylvainSUPINTERNET/eph-store.git"
-    description = "https://github.com/sylvainSUPINTERNET/eph-store.git"
+    default="https://github.com/sylvainSUPINTERNET/eph-store/archive/refs/tags/v1.0.0.tar.gz"
+    description = "https://github.com/sylvainSUPINTERNET/eph-store/archive/refs/tags/v1.0.0.tar.gz"
 }
+

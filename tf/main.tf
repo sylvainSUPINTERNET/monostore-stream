@@ -21,14 +21,13 @@ resource "heroku_app" "new_store" {
 
 }
 
-# resource "heroku_build" "new_store" {
-#   app = heroku_app.new_store.id
-#   buildpacks = ["heroku/nodejs"]
-  
-#   # source {
-#   #     url = var.GIT_SOURCE
-#   # }
-# }
+resource "heroku_build" "new_store" {
+  app = heroku_app.new_store.id
+
+  source {
+    url = var.RELEASE_URL
+  }
+}
 
 # resource "heroku_formation" "new_store" {
 #   app        = heroku_app.new_store.id
