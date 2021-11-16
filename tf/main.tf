@@ -29,13 +29,13 @@ resource "heroku_build" "new_store" {
   }
 }
 
-# resource "heroku_formation" "new_store" {
-#   app        = heroku_app.new_store.id
-#   type       = "web"
-#   quantity   = 1
-#   size       = "Standard-1x"
-#   depends_on = [heroku_app.new_store]
-# }
+resource "heroku_formation" "new_store" {
+  app        = heroku_app.new_store.id
+  type       = "web"
+  quantity   = 1
+  size       = "Standard-1x"
+  depends_on = [heroku_app.new_store]
+}
 
 
 output "new_store_url" {
